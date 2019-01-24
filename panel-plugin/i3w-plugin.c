@@ -179,7 +179,8 @@ construct_workspaces(XfcePanelPlugin *plugin)
     i3_workspaces->i3wm = i3wm_construct(&err);
     if (NULL != err)
     {
-        recover_from_disconnect(i3_workspaces);
+        abort();
+        //recover_from_disconnect(i3_workspaces);
     }
 
     connect_callbacks(i3_workspaces);
@@ -637,24 +638,25 @@ on_ipc_shutdown(gpointer i3_w)
     i3wm_destruct(i3_workspaces->i3wm);
     i3_workspaces->i3wm = NULL;
 
-    recover_from_disconnect(i3_workspaces);
+    //recover_from_disconnect(i3_workspaces);
+    abort();
 
     connect_callbacks(i3_workspaces);
 
     add_workspaces(i3_workspaces);
 }
 
-static void
-recover_from_disconnect(i3WorkspacesPlugin *i3_workspaces)
-{
-    GError *err = NULL;
+// static void
+// recover_from_disconnect(i3WorkspacesPlugin *i3_workspaces)
+// {
+//     GError *err = NULL;
 
-    i3_workspaces->i3wm = i3wm_construct(&err);
-    while (NULL != err)
-    {
-        fprintf(stderr, "Cannot connect to the i3 window manager: %s\n", err->message);
-        g_error_free(err);
-        err = NULL;
-        i3_workspaces->i3wm = i3wm_construct(&err);
-    }
-}
+//     i3_workspaces->i3wm = i3wm_construct(&err);
+//     while (NULL != err)
+//     {
+//         fprintf(stderr, "Cannot connect to the i3 window manager: %s\n", err->message);
+//         g_error_free(err);
+//         err = NULL;
+//         i3_workspaces->i3wm = i3wm_construct(&err);
+//     }
+// }
